@@ -30,7 +30,6 @@
             position: relative;
             overflow: hidden;
             background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000') center/cover;
-            /* يمكنك استبدال الرابط بصورة خريطة السنافر الحقيقية */
         }
         #smurf {
             position: absolute;
@@ -67,18 +66,15 @@
 </head>
 <body>
 
-    <!-- شريط الحالة العلوي -->
     <div id="hud">
         <span>🪙 <span id="coins">100</span></span>
         <span>💎 <span id="gems">5</span></span>
         <span>⚡ <span id="energy">100</span></span>
     </div>
 
-    <!-- منطقة اللعبة -->
     <div id="game-container">
         <div id="smurf">🧢</div>
         
-        <!-- أزرار التحكم -->
         <div id="controls">
             <div></div>
             <button class="btn" onclick="move('up')">⬆️</button>
@@ -90,58 +86,38 @@
     </div>
 
     <script>
-        // تهيئة تيليجرام WebApp
         const tg = window.Telegram.WebApp;
-        tg.expand(); // ملء الشاشة
+        tg.expand();
         tg.setHeaderColor('#2c3e50');
         tg.setBackgroundColor('#2c3e50');
 
-        // حالة اللعبة
         let player = {
-            x: 50, y: 50, // النسبة المئوية للموقع
+            x: 50, y: 50,
             coins: 100,
             gems: 5,
             energy: 100
         };
 
-        // تحديث الواجهة
         function updateUI() {
             document.getElementById('coins').innerText = player.coins;
             document.getElementById('gems').innerText = player.gems;
             document.getElementById('energy').innerText = player.energy;
-            
             const smurf = document.getElementById('smurf');
             smurf.style.top = player.y + '%';
             smurf.style.left = player.x + '%';
         }
 
-        // التحرك
         function move(direction) {
-            const step = 5; // مقدار الحركة
+            const step = 5;
             if (direction === 'up' && player.y > 10) player.y -= step;
             if (direction === 'down' && player.y < 90) player.y += step;
             if (direction === 'left' && player.x > 10) player.x -= step;
             if (direction === 'right' && player.x < 90) player.x += step;
-            
             updateUI();
-            
-            // إرسال البيانات للبوت (اختياري)
             tg.sendData(JSON.stringify({ action: 'move', x: player.x, y: player.y }));
         }
 
-        // إرسال البيانات عند الإغلاق أو تغيير الحالة
-        function saveGame() {
-            tg.sendData(JSON.stringify({
-                action: 'save',
-                coins: player.coins,
-                gems: player.gems,
-                energy: player.energy
-            }));
-        }
-
-        // إضافة زر لجمع التوت في الزاوية
         document.getElementById('game-container').addEventListener('click', function(e) {
-            // إذا ضغط على مكان فارغ، اجمع توت (كمثال)
             if (e.target.id === 'game-container') {
                 player.coins += 10;
                 player.energy -= 5;
@@ -152,4 +128,4 @@
         updateUI();
     </script>
 </body>
-                                                                </html>
+            </html>
